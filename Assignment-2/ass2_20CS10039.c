@@ -1,5 +1,4 @@
 #include "myl.h"
-#include <stdio.h>
 
 #define BUFF_SIZE 32
 
