@@ -1,14 +1,15 @@
 #include "myl.h"
 
 int main(){
-    // char str[] = "Hello World\n\n";
-    // printStr(str);
-    // printInt(432);
-    // printStr("\n\n");
-    // int len = printFlt(3.687);
-    // printStr("\n\n");
-    // printInt(len);
-    float n;
-    readFlt(&n);
-    printFlt(n);
+    char str[] = "Hello World\n\n";
+    printStr(str);
+    printStr("\nEnter an integer: ");
+    int num;
+    readInt(&num);
+    printInt(num);
+    printStr("\nEnter a float: ");
+    float flt;
+    readFlt(&flt);
+    printFlt(flt);
+    return 0;
 }
