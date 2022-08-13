@@ -8,7 +8,7 @@ int main(){
     // int len = printFlt(3.687);
     // printStr("\n\n");
     // printInt(len);
-    int n;
-    readInt(&n);
-    printInt(n);
+    float n;
+    readFlt(&n);
+    printFlt(n);
 }
