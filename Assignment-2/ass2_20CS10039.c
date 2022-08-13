@@ -1,4 +1,7 @@
 #include "myl.h"
+#include <stdio.h>
+
+#define BUFF_SIZE 32
 
 int printStr(char * str){
     int len = 0;                
@@ -15,13 +18,49 @@ int printStr(char * str){
 }
 
 int readInt(int *n){
+    char buf[BUFF_SIZE];
+    int len, isNeg = 0;
+    __asm__ __volatile__(       // read the string
+        "movl $0, %%eax\n\t"    // eax = 0
+        "movq $0, %%rdi\n\t"    // rdi = 0
+        "syscall\n\t"           // system call
+         :"=a"(len)              // return the length of the string
+        :"S"(buf), "d"(BUFF_SIZE) // pass the buffer and the length of the buffer to the system call
+    );
+    // printInt(len);              // print the string
+    if(len <= 0)                // if the length of the string <=> 0, return 0
+        return ERR;
+    if(buf[len-1] == '\n')      // if the last character of the string is '\n', remove it
+        buf[len-1] = '\0';
+    if((buf[0] < '0' || buf[0] > '9') && buf[0] != '-') // if the first character of the string is not a digit, return 0
+        return ERR;
+    for(int i = 1; i < len-1; i++){
+        if(buf[i] < '0' || buf[i] > '9'){           // if the character is not a digit, return 0
+            return ERR;
+        }
+    }
 
+    int i = 0;
+    if(buf[0] == '-'){                              // if the first character of the string is '-', return 0
+        isNeg = 1;
+        i = 1;
+    }
+    *n = 0;
+    for(; i < len - 1; i++){
+        *n = *n * 10 + (buf[i] - '0');               // convert the string to an integer
+    }
+    if(isNeg)                                        // if the string is negative, make it positive
+        *n = -(*n);
+    return OK;
 }
 
 
 int printInt(int n){
-    char buff[32];              // buffer to store the string
+    char buff[BUFF_SIZE];              // buffer to store the string
     int len=0,neg=0;            // length of the string, flag to check if the number is negative
+    if(n == 0){
+        buff[len++] = '0';
+    }
     if(n<0){                    // if the number is negative
         buff[len++]='-';        // add the negative sign to the string
         n=-n;                   // make the number positive
@@ -29,18 +68,20 @@ int printInt(int n){
     }
     while(n){                   // continue till the number is not zero
         buff[len++]=n%10+'0';   // add unit digit to the string
+        
         n/=10;                  // remove the unit digit
     }
+    buff[len]='\0';             // add the null character to the string
     int i=0;                    // index to traverse the string
     if(neg)                     // if the number is negative
-        i++;                    // increment the index
+        i++,len++;                    // increment the index
+
     while(i<len/2){             // reverse the string
         char temp=buff[i];
         buff[i]=buff[len-i-1];
         buff[len-i-1]=temp;
         i++;
     }
-    buff[len]='\0';             // add the null character to the string
     printStr(buff);             // print the string
     return len;                 // return the length of the string
 }
