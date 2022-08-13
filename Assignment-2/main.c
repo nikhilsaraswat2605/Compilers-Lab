@@ -5,6 +5,7 @@ int main(){
     printStr(str);
     printInt(432);
     printStr("\n\n");
-    printFlt(3);
+    int len = printFlt(3.687);
     printStr("\n\n");
+    printInt(len);
 }

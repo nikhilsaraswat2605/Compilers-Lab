@@ -11,6 +11,7 @@ int printStr(char * str){
         :
         :"S"(str), "d"(len)
     );
+    return len;
 }
 
 int readInt(int *n){
@@ -51,12 +52,13 @@ int readFlt(float *f){
 int printFlt(float f){
     long long int int_part = (long long int)f;
     long long int frac_part = (long long int)((f - (float)int_part)*1000000);
-    printInt(int_part);
-    printStr(".");
+    int numchar = printInt(int_part);
+    numchar += printStr(".");
     if(frac_part == 0)
-        printStr("0");
+        numchar += printStr("0");
     else
-        printInt(frac_part);
+        numchar += printInt(frac_part);
+    return numchar;
 }
 
 
