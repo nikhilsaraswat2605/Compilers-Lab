@@ -6,8 +6,8 @@
 
 int readFlt(float *f)
 {
-    char buffer[BUFF_SIZE]={};           // buffer to store the string
-    int len=0, isNeg = 0;               // length of the string, flag to check if the number is negative
+    char buffer[BUFF_SIZE] = {};      // buffer to store the string
+    int len = 0, isNeg = 0;           // length of the string, flag to check if the number is negative
     __asm__ __volatile__(             // read the string
         "movl $0, %%eax\n\t"          // eax = 0
         "movq $0, %%rdi\n\t"          // rdi = 0

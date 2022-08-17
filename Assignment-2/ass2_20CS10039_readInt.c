@@ -6,8 +6,8 @@
 
 int readInt(int *n)
 {
-    char buffer[BUFF_SIZE]={};
-    int len=0, isNeg = 0;
+    char buffer[BUFF_SIZE] = {};
+    int len = 0, isNeg = 0;
     __asm__ __volatile__(             // read the string
         "movl $0, %%eax\n\t"          // eax = 0
         "movq $0, %%rdi\n\t"          // rdi = 0
