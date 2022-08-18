@@ -24,12 +24,8 @@ int readFlt(float *f)
     { // if the last character of the string is '\n', remove it
         buffer[len - 1] = '\0';
     }
-    if ((buffer[0] < '0' || buffer[0] > '9') && buffer[0] != '-' && buffer[0] != '.' && buffer[0] != '+')
+    if ((buffer[0] < '0' || buffer[0] > '9') && buffer[0] != '-' && buffer[0] != '.')
     { // if the first character of the string is not a digit, return 0
-        return ERR;
-    }
-    if(len==2 && (buffer[0]=='+' || buffer[0]=='-'))
-    {
         return ERR;
     }
     int count_decimal_chars = 0; // count the number of decimal characters
@@ -46,10 +42,10 @@ int readFlt(float *f)
     }
 
     int i = 0; // index to traverse the string
-    if (buffer[0] == '-' || buffer[0] == '+')
-    {
-        isNeg = buffer[0] == '-' ? 1 : 0; // if the first character is '-', set isNeg to 1, else set isNeg to 0
-        i = 1;                            // set i to 1
+    if (buffer[0] == '-')
+    { // if the first character of the string is '-', return 0
+        isNeg = 1;
+        i = 1; // increment the index
     }
     double integer_part = 0; // integer part of the number
     for (; i < len - 1; i++)

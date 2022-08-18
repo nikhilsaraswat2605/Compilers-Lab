@@ -23,12 +23,8 @@ int readInt(int *n)
     { // if the last character of the string is '\n', remove it
         buffer[len - 1] = '\0';
     }
-    if ((buffer[0] < '0' || buffer[0] > '9') && buffer[0] != '-' && buffer[0] != '+')
+    if ((buffer[0] < '0' || buffer[0] > '9') && buffer[0] != '-')
     { // if the first character of the string is not a digit, return 0
-        return ERR;
-    }
-    if(len==2 && (buffer[0]=='+' || buffer[0]=='-'))
-    {
         return ERR;
     }
     for (int i = 1; i < len - 1; i++)
@@ -40,10 +36,10 @@ int readInt(int *n)
     }
 
     int i = 0;
-    if (buffer[0] == '-' || buffer[0] == '+')
-    {
-        isNeg = buffer[0] == '-' ? 1 : 0; // if the first character is '-', set isNeg to 1, else set isNeg to 0
-        i = 1;                            // set i to 1
+    if (buffer[0] == '-')
+    {              // if the first character of the string is '-', return 0
+        isNeg = 1; // set isNeg to 1
+        i = 1;     // set i to 1
     }
     long long int temp_num = 0;
     temp_num = 0; // set n to 0
