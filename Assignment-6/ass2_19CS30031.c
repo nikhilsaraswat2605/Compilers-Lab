@@ -5,23 +5,8 @@
 #define INT_MAX __INT32_MAX__
 #define INT_MIN (-INT_MAX - 1)
 
-int printStr(char *str) {
-    int str_len = 0;
-    while (str[str_len] != '\0')
-        str_len++;
-
-    __asm__ __volatile__(
-        "movl $1, %%eax \n\t"
-        "movq $1, %%rdi \n\t"
-        "syscall \n\t"
-        :
-        : "S"(str), "d"(str_len));
-
-    return str_len;
-}
-
 int readInt(int *str) {
-    char in[BUFFER];
+    char input[BUFFER];
     int str_len;
 
     __asm__ __volatile__ (
@@ -29,7 +14,7 @@ int readInt(int *str) {
         "movq $0, %%rdi \n\t"
         "syscall \n\t"
         : "=a"(str_len)
-        :"S"(in), "d"(BUFFER));
+        :"S"(input), "d"(BUFFER));
 
     if(str_len < 0) {
         *str = ERR;
@@ -39,20 +24,20 @@ int readInt(int *str) {
     int sign = 1, idx = 0;
     long long int ret = 0;
     if(idx < str_len) {
-        if(in[idx] == '-') {
+        if(input[idx] == '-') {
             sign = -1;
             idx++;
-        } else if(in[idx] == '+') {
+        } else if(input[idx] == '+') {
             idx++;
         }
     }
     
-    while(idx < str_len && in[idx] != '\n') {
-        if(in[idx] < '0' || in[idx] > '9') {
+    while(idx < str_len && input[idx] != '\n') {
+        if(input[idx] < '0' || input[idx] > '9') {
             *str = ERR;
             return 0;
         }
-        int current = (int)(in[idx] - '0');
+        int current = (int)(input[idx] - '0');
         ret *= 10;
         ret += (sign * current);
         if(ret > INT_MAX || ret < INT_MIN) {
@@ -97,3 +82,20 @@ int printInt(int num) {
         : "S"(result), "d"(str_len));
     return str_len;
 }
+
+
+int printStr(char *str) {
+    int str_len = 0;
+    while (str[str_len] != '\0')
+        str_len++;
+
+    __asm__ __volatile__(
+        "movl $1, %%eax \n\t"
+        "movq $1, %%rdi \n\t"
+        "syscall \n\t"
+        :
+        : "S"(str), "d"(str_len));
+
+    return str_len;
+}
+
