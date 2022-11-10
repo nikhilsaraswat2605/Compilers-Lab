@@ -1,4 +1,4 @@
-#include "ass6_19CS30031_19CS10070_translator.h"
+#include "ass6_20CS30003_20CS10039_translator.h"
 
 // Global Variables
 int tableCount, temporaryCount;  // Counts of number of tables and number of temps generated
