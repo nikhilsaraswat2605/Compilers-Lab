@@ -1,7 +1,7 @@
 #include "myl.h"
 
 #define AFTERDECIMAL 6
-#define BUFFER 20
+#define BUFFER 50
 #define INT_MAX __INT32_MAX__
 #define INT_MIN (-INT_MAX - 1)
 
@@ -55,23 +55,31 @@ int printInt(int num) {
     int str_len = 0;
     long long int num1 = num;
     char result[BUFFER];
+    if(num1 == 0){
+        result[0] = '0';
+    }
     if (num1 < 0) {
         result[str_len++] = '-';
         num1 = -num1;
     }
-    while (num1) {
-        result[str_len++] = (char)('0' + (num1 % 10));
+    while (num1 > 0) {
+        result[str_len] = (char)('0' + (num1 % 10));
+        str_len++;
         num1 /= 10;
     }
-    if (str_len == 0)
-        result[str_len++] = '0';
+    if (str_len == 0){
+        result[str_len] = '0';
+        str_len++;
+    }
 
     int back = str_len - 1;
     int front = (result[0] == '-' ? 1 : 0);
     while (front < back) {
         char temp = result[front];
-        result[front++] = result[back];
-        result[back--] = temp;
+        result[front] = result[back];
+        front++;
+        result[back] = temp;
+        back--;
     }
 
     __asm__ __volatile__(
@@ -86,7 +94,7 @@ int printInt(int num) {
 
 int printStr(char *str) {
     int str_len = 0;
-    while (str[str_len] != '\0')
+    for(int i = 0; str[i] != '\0'; i++)
         str_len++;
 
     __asm__ __volatile__(
